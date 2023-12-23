@@ -1,0 +1,1 @@
+[Akai APC40 Mk2 Communication Protocol](https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf)
