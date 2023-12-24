@@ -1,13 +1,10 @@
-import mido
-
 from setup_apc import inport
-from setup_daw import dawport
 
 from apc_leds import clear_leds, Beat, color_palette, led_on
 from apc_matrix import is_matrix, matrix_to_note, note_to_matrix
 
-from chords import x_to_root, y_to_chord
-from param import is_param_update, params, update_param
+from chords import play_chord, release_chord, x_to_root, y_to_chord
+from param import is_param_update, update_param
 
 
 BACKGROUND_COLOR = color_palette(matrix_to_note(1, 4))
@@ -31,21 +28,11 @@ def matrix_handler(msg):
     match msg.type:
         case "note_on":
             led_on(msg.note, FOREGROUND_COLOR, Beat.ONESHOT[16])
-            for note in chord_shape:
-                dawport.send(
-                    mido.Message(
-                        "note_on",
-                        note=root + note + 60,
-                        velocity=params["velocity"],
-                    )
-                )
+            play_chord(root, chord_shape)
 
         case "note_off":
             led_on(msg.note, BACKGROUND_COLOR, Beat.CONSTANT)
-            for note in chord_shape:
-                dawport.send(
-                    mido.Message("note_off", note=root + note + 60, velocity=0)
-                )
+            release_chord(root, chord_shape)
 
 
 event_listeners = [
