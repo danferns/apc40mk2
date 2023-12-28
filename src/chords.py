@@ -55,10 +55,9 @@ def play_chord(root, shape):
 def release_chord(root, shape):
     this_chord_notes = set(chord_to_notes(root, shape))
     other_chords_notes = set()
+    chords_held.remove({"root": root, "shape": shape})
     for chord in chords_held:
-        # if it's not this chord
-        if not chord["root"] == root and chord["shape"] == shape:
-            other_chords_notes.update(chord_to_notes(chord["root"], chord["shape"]))
+        other_chords_notes.update(chord_to_notes(chord["root"], chord["shape"]))
 
     # only release notes that are not held down by other chords simultaneously
     notes_to_release = this_chord_notes - other_chords_notes
@@ -66,4 +65,3 @@ def release_chord(root, shape):
     for note in notes_to_release:
         note_off(note)
 
-    chords_held.remove({"root": root, "shape": shape})
