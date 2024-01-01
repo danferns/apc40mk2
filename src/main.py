@@ -2,7 +2,7 @@ from apc_leds import clear_leds
 from apc_matrix import is_matrix, matrix_handler
 from param import is_param_update, update_param
 from setup_apc import inport
-# from transport import is_transport, transport_handler
+from transport import is_transport, transport_handler
 
 
 def init():
@@ -15,7 +15,7 @@ def init():
 event_listeners = [
     {"check": is_matrix, "action": matrix_handler},
     {"check": is_param_update, "action": update_param},
-    # {"check": is_transport, "action": transport_handler},
+    {"check": is_transport, "action": transport_handler},
 ]
 
 
