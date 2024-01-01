@@ -66,7 +66,6 @@ def release_chord(root, shape):
         note_off(note)
 
 
-
 """
 for chord trasition from chord A to chord B 
 
@@ -93,9 +92,7 @@ circle_of_fifths = [
 
 
 def circle_of_fifths_distance(note1, note2):
-    return (
-        circle_of_fifths.index(note1 % 12) - circle_of_fifths.index(note2 % 12)
-    ) % 12
+    return abs(circle_of_fifths.index(note1 % 12) - circle_of_fifths.index(note2 % 12))
 
 
 def chord_transition_dissonance(chord1, chord2):
