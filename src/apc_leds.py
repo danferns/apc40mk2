@@ -47,3 +47,8 @@ def color_palette(i):
     level = i - i % 2
     add = 4 + level
     return i + add
+
+
+def display_color_palette():
+    for i in range(0, 40):
+        led_on(i, color_palette(i), Beat.CONSTANT)

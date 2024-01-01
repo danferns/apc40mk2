@@ -1,4 +1,4 @@
-from apc_leds import clear_leds
+from apc_leds import clear_leds, display_color_palette
 from apc_matrix import is_matrix, matrix_handler
 from param import is_param_update, update_param
 from setup_apc import inport
@@ -7,9 +7,7 @@ from transport import is_transport, transport_handler
 
 def init():
     clear_leds()
-    # for i in range(0, 40):  # uncomment to view color palette
-    #     led_on(i, color_palette(i), Beat.CONSTANT)
-    # return
+    # display_color_palette()
 
 
 event_listeners = [
