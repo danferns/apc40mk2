@@ -1,10 +1,14 @@
+import mido
+from setup_apc import outport
+
 params = {
-    "velocity": 127,
+    "velocity": 64,
     "center": 64,
 }
 
 # order of knobs above the matrix
-param_knobs = ["velocity"]
+param_knobs = ["velocity", "center"]
+
 
 def message_to_knob(msg):
     return msg.control - 48
@@ -26,3 +30,9 @@ def update_param(msg):
     knob = message_to_knob(msg)
     if is_param_update(msg) and knob < len(param_knobs):
         params[knob_to_param(knob)] = msg.value
+
+
+for i, param in enumerate(param_knobs):
+    outport.send(
+        mido.Message("control_change", channel=0, control=i + 48, value=params[param])
+    )
