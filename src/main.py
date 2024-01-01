@@ -1,4 +1,4 @@
-from apc_leds import clear_leds, display_color_palette
+from apc_leds import clear_leds, display_color_palette  # noqa: F401
 from apc_matrix import is_matrix, matrix_handler
 from param import is_param_update, update_param
 from setup_apc import inport
