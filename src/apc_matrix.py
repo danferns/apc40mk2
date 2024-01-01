@@ -8,6 +8,7 @@ from chords import (
     y_to_chord,
 )
 
+
 def matrix_to_note(x, y):
     return 8 * y + x
 
@@ -24,8 +25,9 @@ def is_matrix(msg):
     )
 
 
-FOREGROUND_COLOR = color_palette(matrix_to_note(5, 2))
+ACTIVE_CHORD_COLOR = color_palette(matrix_to_note(5, 2))
 
+# based on the matrix color palette
 DISSONANCE_COLORS = [
     (3, 2),
     (1, 2),
@@ -57,21 +59,21 @@ def matrix_handler(msg):
 
     match msg.type:
         case "note_on":
-            led_on(msg.note, FOREGROUND_COLOR, Beat.ONESHOT[16])
+            led_on(msg.note, ACTIVE_CHORD_COLOR, Beat.ONESHOT[16])
             play_chord(root, chord_shape)
 
-            # colon chords based on dissonance
+            # color chords based on dissonance
             for mx in range(1, 8):
                 for my in range(0, 5):
                     if mx == x and my == y:
                         continue
 
-                    notes_of_iter_chord = set(chord_to_notes(root, chord_shape))
-                    notes_of_this_chord = set(
+                    notes_of_active_chord = set(chord_to_notes(root, chord_shape))
+                    notes_of_iter_chord = set(
                         chord_to_notes(x_to_root(mx), y_to_chord(my))
                     )
                     dissonance = chord_transition_dissonance(
-                        notes_of_iter_chord, notes_of_this_chord
+                        notes_of_active_chord, notes_of_iter_chord
                     )
 
                     if dissonance < len(DISSONANCE_COLORS):

@@ -5,7 +5,6 @@ from setup_daw import dawport
 controls = {
     "play": 91,
     "record": 93,
-    "tempetap": 99,
 }
 
 
