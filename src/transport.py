@@ -1,10 +1,10 @@
 import mido
 from setup_daw import dawport
+from setup_apc import outport
 
 
 controls = {
     "play": 91,
-    "record": 93,
 }
 
 
@@ -26,15 +26,11 @@ def transport_handler(msg):
             if not playing:
                 # send MMC play
                 dawport.send(mido.Message("continue"))
+                outport.send(msg)
                 playing = True
             else:
                 # send MMC stop
                 dawport.send(mido.Message("stop"))
+                outport.send(msg.copy(velocity=0))
                 playing = False
 
-    if msg.note == controls["record"]:
-        if msg.type == "note_on":
-            # send MMC record
-            dawport.send(mido.Message("record_start"))
-        else:
-            dawport.send(mido.Message("record_stop"))

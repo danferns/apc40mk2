@@ -1,4 +1,4 @@
-from apc_leds import Beat, color_palette, led_off, led_on
+from apc_leds import Beat, color_palette, led_on
 from chords import (
     chord_to_notes,
     chord_transition_dissonance,
