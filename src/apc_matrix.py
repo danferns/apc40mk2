@@ -86,7 +86,11 @@ def matrix_handler(msg):
                         )
 
                     else:
-                        led_off(matrix_to_note(mx, my))
+                        led_on(
+                            matrix_to_note(mx, my),
+                            color_palette(matrix_to_note(*DISSONANCE_COLORS[-1])),
+                            Beat.CONSTANT,
+                        )
 
         case "note_off":
             release_chord(root, chord_shape)
