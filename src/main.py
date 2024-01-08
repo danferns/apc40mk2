@@ -1,27 +1,21 @@
 from apc_leds import clear_leds, display_color_palette  # noqa: F401
 from apc_matrix import is_matrix, matrix_handler
+from device_control import device_control_handler, is_device_control
 from param import is_param_update, update_param
 from setup_apc import inport
 from transport import is_transport, transport_handler
 
 
-def init():
-    clear_leds()
-    # display_color_palette()
-
-
-event_listeners = [
-    {"check": is_matrix, "action": matrix_handler},
-    {"check": is_param_update, "action": update_param},
-    {"check": is_transport, "action": transport_handler},
-]
-
-
-init()
+clear_leds()
+# display_color_palette()
 
 for msg in inport:
     print(msg)
-    for listener in event_listeners:
-        if listener["check"](msg):
-            listener["action"](msg)
-            break
+    if is_matrix(msg):
+        matrix_handler(msg)
+    elif is_param_update(msg):
+        update_param(msg)
+    elif is_transport(msg):
+        transport_handler(msg)
+    elif is_device_control(msg):
+        device_control_handler(msg)
