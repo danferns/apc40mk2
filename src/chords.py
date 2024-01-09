@@ -38,8 +38,13 @@ def chord_to_notes(root, shape):
     notes = []
     for note in shape:
         real_note = note + root + octave * 12
-        if abs(real_note - center) > abs(real_note - 12 - center):
-            real_note -= 12
+        real_note_octave_high = real_note + 12
+        real_note_octave_low = real_note - 12
+        if abs(real_note_octave_high - center) < abs(real_note - center):
+            real_note = real_note_octave_high
+        elif abs(real_note_octave_low - center) < abs(real_note - center):
+            real_note = real_note_octave_low
+
         notes.append(real_note)
 
     return notes
