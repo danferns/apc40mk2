@@ -1,3 +1,5 @@
+import asyncio
+
 from setup_daw import note_on, note_off
 from param import params
 
@@ -52,12 +54,17 @@ def chord_to_notes(root, shape):
 
 chords_held = []
 
+async def strum_chord(notes, velocity):
+    notes.sort() # strum up
+    delay = params["strum"] / 127
+    delay *= 5 # max duration
+    for note in notes:
+        note_on(note, velocity)
+        await asyncio.sleep(delay)
 
 def play_chord(root, shape):
     notes = chord_to_notes(root, shape)
-    for note in notes:
-        note_on(note, params["velocity"])
-
+    asyncio.run(strum_chord(notes, params["velocity"]))
     chords_held.append({"root": root, "shape": shape})
 
 
