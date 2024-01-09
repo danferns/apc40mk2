@@ -12,10 +12,10 @@ class ChordShape:
 
 def y_to_chord(y):
     return {
-        0: ChordShape.MAJOR,
-        1: ChordShape.MINOR,
+        0: ChordShape.MAJOR_SEVENTH,
+        1: ChordShape.MAJOR,
         2: ChordShape.SUS4,
-        3: ChordShape.MAJOR_SEVENTH,
+        3: ChordShape.MINOR,
         4: ChordShape.MINOR_SEVENTH,
     }[y]
 
@@ -33,10 +33,14 @@ def x_to_root(x):
 
 
 def chord_to_notes(root, shape):
-    octave = 5
+    center = params["chord-center"]
+    octave = center // 12
     notes = []
     for note in shape:
-        notes.append(12 * octave + note + root)
+        real_note = note + root + octave * 12
+        if abs(real_note - center) > abs(real_note - 12 - center):
+            real_note -= 12
+        notes.append(real_note)
 
     return notes
 

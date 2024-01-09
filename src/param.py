@@ -3,11 +3,11 @@ from setup_apc import outport
 
 params = {
     "velocity": 64,
-    "center": 64,
+    "chord-center": 64,
 }
 
 # order of knobs above the matrix
-param_knobs = ["velocity", "center"]
+param_knobs = ["velocity", "chord-center"]
 
 
 def message_to_knob(msg):
