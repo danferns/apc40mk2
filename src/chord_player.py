@@ -1,4 +1,5 @@
-import asyncio
+from threading import Thread
+import time
 
 from setup_daw import note_on, note_off
 from param import params
@@ -47,17 +48,18 @@ def chord_to_notes(root, shape):
 
 chords_held = []
 
-async def strum_chord(notes, velocity):
+def strum_chord(notes, velocity):
     notes.sort() # strum up
     delay = params["strum"] / 127
     delay *= 5 # max duration
     for note in notes:
         note_on(note, velocity)
-        await asyncio.sleep(delay)
+        time.sleep(delay)
 
 def play_chord(root, shape):
     notes = chord_to_notes(root, shape)
-    asyncio.run(strum_chord(notes, params["velocity"]))
+    strum_thread = Thread(target=strum_chord, args=(notes, params["velocity"]))
+    strum_thread.start()
     chords_held.append({"root": root, "shape": shape})
 
 
