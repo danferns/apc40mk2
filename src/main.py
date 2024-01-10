@@ -5,12 +5,14 @@ from param import is_param_update, update_param
 from setup_apc import inport
 from transport import is_transport, transport_handler
 
+from threading import Thread
+
 
 clear_leds()
 # display_color_palette()
 
-for msg in inport:
-    print(msg)
+
+def handle_message(msg):
     if is_matrix(msg):
         matrix_handler(msg)
     elif is_param_update(msg):
@@ -19,3 +21,9 @@ for msg in inport:
         transport_handler(msg)
     elif is_device_control(msg):
         device_control_handler(msg)
+
+
+for msg in inport:
+    print(msg)
+    message_thread = Thread(target=handle_message, args=(msg,))
+    message_thread.start()
