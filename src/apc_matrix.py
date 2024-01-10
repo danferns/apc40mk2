@@ -1,13 +1,12 @@
 from apc_leds import Beat, color_palette, led_on
-from chords import (
+from chord_player import (
     chord_to_notes,
-    chord_transition_dissonance,
     play_chord,
     release_chord,
     x_to_root,
     y_to_chord,
 )
-
+from chord_theory import chord_transition_dissonance
 
 def matrix_to_note(x, y):
     return 8 * y + x
