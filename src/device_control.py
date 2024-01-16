@@ -1,4 +1,4 @@
-from setup_daw import dawport
+from setup_daw import dawcontrolport
 from setup_apc import outport
 
 
@@ -18,14 +18,14 @@ def get_button_index(msg):
 
 def device_control_handler(msg):
     if msg.type == "control_change":
-        dawport.send(msg)
+        dawcontrolport.send(msg)
     elif msg.type == "note_on":
         button = get_button_index(msg)
         if button_states[button]:
-            dawport.send(msg.copy(note=button + 58, velocity=0))
+            dawcontrolport.send(msg.copy(note=button + 58, velocity=0))
             outport.send(msg.copy(note=button + 58, velocity=0))
             button_states[button] = False
         else:
-            dawport.send(msg)
+            dawcontrolport.send(msg)
             outport.send(msg)
             button_states[button] = True
