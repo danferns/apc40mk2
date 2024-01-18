@@ -47,26 +47,26 @@ def chord_to_notes(root, shape):
 
 
 chords_held = []
-notes_held = {}  # note -> chord[]
+chords_holding_note = {}  # note -> chord[]
 
 hold_release_lock = Lock()
 
 def hold_note_of_chord(note, root, shape):
     hold_release_lock.acquire()
     if {"root": root, "shape": shape} in chords_held:
-        if note not in notes_held:
-            notes_held[note] = []
-        notes_held[note].append({"root": root, "shape": shape})
+        if note not in chords_holding_note:
+            chords_holding_note[note] = []
+        chords_holding_note[note].append({"root": root, "shape": shape})
         note_on(note, params["velocity"])
     hold_release_lock.release()
 
 
 def release_note_of_chord(note, root, shape):
     hold_release_lock.acquire()
-    if note in notes_held:
-        if {"root": root, "shape": shape} in notes_held[note]:
-            notes_held[note].remove({"root": root, "shape": shape})
-            if len(notes_held[note]) == 0:
+    if note in chords_holding_note:
+        if {"root": root, "shape": shape} in chords_holding_note[note]:
+            chords_holding_note[note].remove({"root": root, "shape": shape})
+            if len(chords_holding_note[note]) == 0:
                 note_off(note)
     
     hold_release_lock.release()
