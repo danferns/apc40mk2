@@ -4,6 +4,7 @@ from device_control import device_control_handler, is_device_control
 from param import is_param_update, update_param
 from setup_apc import inport
 from transport import is_transport, transport_handler
+from windows import is_windows_message, windows_handler
 
 
 clear_leds()
@@ -19,3 +20,5 @@ for msg in inport:
         transport_handler(msg)
     elif is_device_control(msg):
         device_control_handler(msg)
+    elif is_windows_message(msg):
+        windows_handler(msg)
