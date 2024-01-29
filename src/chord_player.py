@@ -77,6 +77,8 @@ def delay_time():
 
 def strum_chord(notes, root, shape):
     notes.sort()  # strum up
+    print(notes) # somehow the code below doesn't work in a non-debug run without this print statement
+    # timing issue? maybe try sleeping?
     for note in notes:
         # this will internally check if the chord is still held
         hold_note_of_chord(note, root, shape)
