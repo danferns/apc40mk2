@@ -1,5 +1,5 @@
 import mido
-from setup_apc import outport
+import setup_apc
 
 params = {
     "velocity": 64,
@@ -33,7 +33,11 @@ def update_param(msg):
         params[knob_to_param(knob)] = msg.value
 
 
-for i, param in enumerate(param_knobs):
-    outport.send(
-        mido.Message("control_change", channel=0, control=i + 48, value=params[param])
-    )
+def init_knob_positions():
+    for i, param in enumerate(param_knobs):
+        setup_apc.outport.send(
+            mido.Message("control_change", channel=0, control=i + 48, value=params[param])
+        )
+
+
+setup_apc.on_apc_connect(init_knob_positions)

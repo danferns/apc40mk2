@@ -1,7 +1,6 @@
 import mido
 from setup_daw import dawcontrolport
-from setup_apc import outport
-
+import setup_apc
 
 controls = {
     "play": 91,
@@ -26,11 +25,11 @@ def transport_handler(msg):
             if not playing:
                 # send MMC play
                 dawcontrolport.send(mido.Message("continue"))
-                outport.send(msg)
+                setup_apc.outport.send(msg)
                 playing = True
             else:
                 # send MMC stop
                 dawcontrolport.send(mido.Message("stop"))
-                outport.send(msg.copy(velocity=0))
+                setup_apc.outport.send(msg.copy(velocity=0))
                 playing = False
 

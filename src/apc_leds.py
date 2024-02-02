@@ -1,4 +1,4 @@
-from setup_apc import outport
+import setup_apc
 
 import mido
 
@@ -30,12 +30,12 @@ class Beat:
 
 def led_on(note, color, beat_channel):
     msg = mido.Message("note_on", note=note, velocity=color, channel=beat_channel)
-    outport.send(msg)
+    setup_apc.outport.send(msg)
 
 
 def led_off(note):
     msg = mido.Message("note_off", note=note, velocity=0, channel=0)
-    outport.send(msg)
+    setup_apc.outport.send(msg)
 
 
 def clear_leds():
