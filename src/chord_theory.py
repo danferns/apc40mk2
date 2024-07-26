@@ -32,7 +32,9 @@ circle_of_fifths = [
 
 
 def circle_of_fifths_distance(note1, note2):
-    return abs(circle_of_fifths.index(note1 % 12) - circle_of_fifths.index(note2 % 12))
+    dist =  abs(circle_of_fifths.index(note1 % 12) - circle_of_fifths.index(note2 % 12))
+    # it's a circle, so the shortest distance may be in reverse direction
+    return min(dist, 12 - dist)
 
 
 def chord_transition_dissonance(chord1, chord2):
