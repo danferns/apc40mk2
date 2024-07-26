@@ -1,4 +1,4 @@
-from apc_leds import Beat, color_palette, led_on
+from apc_leds import Beat, bright_hues, color_palette, led_on
 from chord_player import (
     chord_to_notes,
     play_chord,
@@ -7,6 +7,7 @@ from chord_player import (
     y_to_chord,
 )
 from chord_theory import chord_transition_dissonance
+
 
 def matrix_to_note(x, y):
     return 8 * y + x
@@ -74,22 +75,16 @@ def matrix_handler(msg):
                     dissonance = chord_transition_dissonance(
                         notes_of_active_chord, notes_of_iter_chord
                     )
+                    print(dissonance)
 
-                    if dissonance < len(DISSONANCE_COLORS):
-                        led_on(
-                            matrix_to_note(mx, my),
-                            color_palette(
-                                matrix_to_note(*DISSONANCE_COLORS[dissonance])
-                            ),
-                            Beat.CONSTANT,
-                        )
+                    norm_diss = min(dissonance, 14) / 14
+                    hueIndex = int(20 * (1 - norm_diss**1.5))
 
-                    else:
-                        led_on(
-                            matrix_to_note(mx, my),
-                            color_palette(matrix_to_note(*DISSONANCE_COLORS[-1])),
-                            Beat.CONSTANT,
-                        )
+                    led_on(
+                        matrix_to_note(mx, my),
+                        bright_hues(hueIndex),
+                        Beat.CONSTANT,
+                    )
 
         case "note_off":
             release_chord(root, chord_shape)
