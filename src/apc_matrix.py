@@ -75,7 +75,6 @@ def matrix_handler(msg):
                     dissonance = chord_transition_dissonance(
                         notes_of_active_chord, notes_of_iter_chord
                     )
-                    print(dissonance)
 
                     norm_diss = min(dissonance, 14) / 14
                     hueIndex = int(20 * (1 - norm_diss**1.5))
